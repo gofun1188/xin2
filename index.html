@@ -27,7 +27,53 @@ src="https://www.facebook.com/tr?id=496057096794216&ev=PageView&noscript=1"
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
   <style>
 
+/* 愛心特效樣式 */
+.heart {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1000;
+}
 
+.heart::before,
+.heart::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 10px;
+  height: 16px;
+  border-radius: 50px 50px 0 0;
+  background: rgba(255, 20, 147, 0.8); /* 粉紅色愛心 */
+}
+
+.heart::before {
+  left: 0;
+  transform: rotate(-45deg);
+  transform-origin: 100% 100%;
+}
+
+.heart::after {
+  left: 0;
+  transform: rotate(45deg);
+  transform-origin: 0 100%;
+}
+
+/* 愛心上升動畫 */
+@keyframes floatHeart {
+  0% {
+    transform: translateY(0) scale(0.3) rotate(0deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-80px) scale(1.2) rotate(10deg);
+    opacity: 0;
+  }
+}
 .fixed-mascot {
   position: fixed !important; /* 強制使用固定定位 */
   bottom: 20px !important; 
@@ -472,19 +518,19 @@ src="https://www.facebook.com/tr?id=496057096794216&ev=PageView&noscript=1"
   }
   5% {
     transform: scale(1.05) rotate(3deg);
-    filter: drop-shadow(0 0 15px rgba(76, 0, 255, 0.7));
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.7)); /* 白色陰影 */
   }
   25% {
     transform: scale(1.03) rotate(-2deg);
-    filter: drop-shadow(0 0 12px rgba(0, 230, 255, 0.6));
+    filter: drop-shadow(0 0 12px rgba(0, 0, 0, 0.6)); /* 黑色陰影 */
   }
   55% {
     transform: scale(1.08) rotate(2deg);
-    filter: drop-shadow(0 0 20px rgba(0, 230, 255, 0.8));
+    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.8)); /* 白色陰影 */
   }
   85% {
     transform: scale(1.04) rotate(-3deg);
-    filter: drop-shadow(0 0 15px rgba(76, 0, 255, 0.6));
+    filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.6)); /* 黑色陰影 */
   }
 }
 
@@ -495,15 +541,15 @@ src="https://www.facebook.com/tr?id=496057096794216&ev=PageView&noscript=1"
   }
   40% {
     transform: translateY(-20px) scale(1.1);
-    filter: drop-shadow(0 0 20px rgba(0, 230, 255, 0.8));
+    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.8)); /* 白色陰影 */
   }
   60% {
     transform: translateY(-15px) scale(1.08);
-    filter: drop-shadow(0 0 18px rgba(76, 0, 255, 0.7));
+    filter: drop-shadow(0 0 18px rgba(0, 0, 0, 0.7)); /* 黑色陰影 */
   }
   80% {
     transform: translateY(-5px) scale(1.05);
-    filter: drop-shadow(0 0 15px rgba(0, 230, 255, 0.6));
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.6)); /* 白色陰影 */
   }
 }
 
@@ -514,11 +560,11 @@ src="https://www.facebook.com/tr?id=496057096794216&ev=PageView&noscript=1"
   }
   10%, 30%, 50%, 70%, 90% {
     transform: rotate(-5deg) scale(1.05);
-    filter: drop-shadow(0 0 15px rgba(76, 0, 255, 0.6));
+    filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.6)); /* 黑色陰影 */
   }
   20%, 40%, 60%, 80% {
     transform: rotate(5deg) scale(1.05);
-    filter: drop-shadow(0 0 15px rgba(0, 230, 255, 0.6));
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.6)); /* 白色陰影 */
   }
 }
 
@@ -1613,7 +1659,7 @@ src="https://www.facebook.com/tr?id=496057096794216&ev=PageView&noscript=1"
       
       <div class="section-content" style="padding-top: 5px;">
     
-        <p class="promo-text">GoFun會員專屬福利💕! <br> 註冊後天天免費轉，最高88888USDT!</p>
+        <p class="promo-text">GoFun會員專屬福利💕! <br> 輪盤免費天天抽，大獎88888u!</p>
         <div style="border-radius: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(92, 86, 69, 0.4); margin: 10px 0 20px;">
           <img src="images/輪盤.jpg" alt="幸運輪盤" style="width: 100%; height: auto; display: block;">
         </div>
@@ -1626,8 +1672,8 @@ src="https://www.facebook.com/tr?id=496057096794216&ev=PageView&noscript=1"
         </div>
         
       
-        <p class="promo-text">VIP特權 用戶跳巢想平轉<br>
-          不限平台會員，VIP特權可無縫轉移👑</p>
+        <p class="promo-text">VIP特權 用戶跳槽想平轉<br>
+          不限平台，VIP特權同步轉移👑</p>
         <div style="border-radius: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(92, 86, 69, 0.4); margin: 10px 0 20px;">
           <img src="images/5月砲兵tw.webp" alt="空降Fun給你" style="width: 100%; height: auto; display: block;">
         </div>
@@ -1645,7 +1691,7 @@ src="https://www.facebook.com/tr?id=496057096794216&ev=PageView&noscript=1"
     </div>
     <div class="card-text">
       <h3>Telegram</h3>
-      <p>24小時美女服務</p>
+      <p>您的專屬小仙女万万</p>
     </div>
   </a>
 
@@ -1660,7 +1706,7 @@ src="https://www.facebook.com/tr?id=496057096794216&ev=PageView&noscript=1"
     </div>
     <div class="card-text">
       <h3>Instagram</h3>
-      <p>關注獲取最新資訊</p>
+      <p>關注万万獲取最新資訊</p>
     </div>
   </a>
 
@@ -1673,7 +1719,7 @@ src="https://www.facebook.com/tr?id=496057096794216&ev=PageView&noscript=1"
     </div>
     <div class="card-text">
       <h3>TikTok</h3>
-      <p>追蹤萬萬精彩短影音</p>
+      <p>追蹤万万精彩短影音</p>
     </div>
   </a>
 
@@ -1687,14 +1733,14 @@ src="https://www.facebook.com/tr?id=496057096794216&ev=PageView&noscript=1"
     </div>
     <div class="card-text">
       <h3>YouTube</h3>
-      <p>訂閱萬萬遊戲頻道</p>
+      <p>訂閱万万遊戲頻道</p>
     </div>
   </a>
 </div>
 
 
 <a href="javascript:void(0);" class="fixed-mascot" id="mascotButton">
-  <img src="images/右下角固定tg.png" alt="吉祥物" style="width: 150px; height: auto;">
+  <img src="images/右下角固定tg.png" alt="吉祥物" style="width: 112.5px; height: auto;">
 </a>
 
 
@@ -1707,7 +1753,7 @@ src="https://www.facebook.com/tr?id=496057096794216&ev=PageView&noscript=1"
       <span class="close-modal">&times;</span>
     </div>
     <div class="modal-body">
-      <h2 class="modal-title">聯絡萬萬 <span class="highlight-text">24/7 隨時為您服務</span></h2>
+      <h2 class="modal-title">聯絡万万 <span class="highlight-text">立即解鎖優惠福利!</span></h2>
 
   
       <div class="register-banner">
@@ -1721,7 +1767,7 @@ src="https://www.facebook.com/tr?id=496057096794216&ev=PageView&noscript=1"
         </div>
         <div class="register-text">
           <h3>註冊 GoFun</h3>
-          <p>享受獨家優惠</p>
+          <p>註冊完私信万万領專屬會員彩金!</p>
         </div>
         <a href="https://97y.me/MRAC7" class="register-button">立即註冊</a>
       </div>
@@ -1737,7 +1783,7 @@ src="https://www.facebook.com/tr?id=496057096794216&ev=PageView&noscript=1"
           </div>
           <div class="contact-info-text">
             <h3>Telegram</h3>
-            <p>24小時美女服務</p>
+            <p>您的專屬小仙女万万</p>
           </div>
         </div>
 
@@ -1765,7 +1811,7 @@ src="https://www.facebook.com/tr?id=496057096794216&ev=PageView&noscript=1"
           </div>
           <div class="contact-info-text">
             <h3>TikTok</h3>
-            <p>追蹤萬萬精彩短影音</p>
+            <p>追蹤万万精彩短影音</p>
           </div>
         </div>
 
@@ -1779,7 +1825,7 @@ src="https://www.facebook.com/tr?id=496057096794216&ev=PageView&noscript=1"
           </div>
           <div class="contact-info-text">
             <h3>YouTube</h3>
-            <p>訂閱萬萬遊戲頻道</p>
+            <p>訂閱万万遊戲頻道</p>
           </div>
         </div>
       </div>
@@ -1840,51 +1886,7 @@ src="https://www.facebook.com/tr?id=496057096794216&ev=PageView&noscript=1"
       }
     });
      // 創建浮動按鈕的裝飾小點
-  document.addEventListener('DOMContentLoaded', function() {
-    // 原有的代碼保持不變
-
-    // 創建浮動按鈕的裝飾小點
-    const dotContainers = document.querySelectorAll('.dots');
-
-    dotContainers.forEach(container => {
-      for (let i = 0; i < 10; i++) {
-        const dot = document.createElement('div');
-        dot.className = 'dot';
-
-        // 隨機位置
-        dot.style.left = Math.random() * 100 + '%';
-        dot.style.top = Math.random() * 100 + '%';
-
-        // 隨機延遲動畫
-        dot.style.animationDelay = (Math.random() * 1) + 's';
-
-        container.appendChild(dot);
-      }
-    });
-
-    // 添加按鈕點擊波紋效果
-    const buttons = document.querySelectorAll('.fixed-btn');
-
-    buttons.forEach(button => {
-      button.addEventListener('click', function(e) {
-        const x = e.clientX - e.target.getBoundingClientRect().left;
-        const y = e.clientY - e.target.getBoundingClientRect().top;
-
-        const ripple = document.createElement('span');
-        ripple.className = 'ripple';
-        ripple.style.left = x + 'px';
-        ripple.style.top = y + 'px';
-
-        this.appendChild(ripple);
-
-        setTimeout(() => {
-          ripple.remove();
-        }, 600);
-      });
-    });
-  });
-
-// 頁面載入後執行所有初始化
+  // 頁面載入後執行所有初始化
 document.addEventListener('DOMContentLoaded', function() {
   // 初始化所有功能
   initParticles();
@@ -1897,7 +1899,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function initParticles() {
   const particlesContainer = document.getElementById('particles');
   const particleCount = 30;
-  const colors = ['#00e2ff', '#00ccff', '#00fff2', '#00acff'];
+  const colors = ['#ffffff', '#000000', '#cccccc', '#333333']; // 改為黑白灰色系
 
   // 創建粒子
   for (let i = 0; i < particleCount; i++) {
@@ -1923,6 +1925,44 @@ function initParticles() {
   }
 }
 
+// 創建愛心漂浮特效函數 - 定義為全局函數讓其他地方可以訪問
+function createFloatingHearts() {
+  const mascot = document.getElementById('mascotButton');
+  // 產生3-5個愛心
+  const heartCount = Math.floor(Math.random() * 3) + 3;
+  const rect = mascot.getBoundingClientRect();
+  
+  for (let i = 0; i < heartCount; i++) {
+    setTimeout(() => {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      
+      // 設置愛心初始位置在吉祥物附近
+      const offsetX = Math.random() * rect.width;
+      heart.style.left = (rect.left + offsetX) + 'px';
+      heart.style.top = (rect.top + rect.height * 0.5) + 'px';
+      
+      // 隨機大小
+      const size = Math.random() * 0.4 + 0.8; // 0.8-1.2倍大小
+      heart.style.transform = `scale(${size})`;
+      
+      // 隨機動畫持續時間
+      const duration = Math.random() * 2 + 2; // 2-4秒
+      heart.style.animation = `floatHeart ${duration}s ease-out forwards`;
+      
+      // 添加到文檔
+      document.body.appendChild(heart);
+      
+      // 動畫結束後移除愛心
+      setTimeout(() => {
+        if (document.body.contains(heart)) {
+          document.body.removeChild(heart);
+        }
+      }, duration * 1000);
+    }, i * 300); // 每300毫秒產生一個愛心
+  }
+}
+
 // 吉祥物動畫初始化 - 修改版本
 function initMascotAnimations() {
   const mascot = document.getElementById('mascotButton');
@@ -1932,19 +1972,74 @@ function initMascotAnimations() {
   mascot.style.bottom = '20px';
   mascot.style.right = '15px';
   mascot.style.zIndex = '1000';
-  mascot.style.width = '150px';
+  mascot.style.width = '112.5px'; // 使用縮小後的大小
   mascot.style.height = 'auto';
 
-// 設置偶爾動畫的間隔（每1-3秒）
-function scheduleNextAnimation() {
-  const delay = 1000 + Math.random() * 2000; // 1-3秒之間
-  setTimeout(() => {
-    occasionalAnimation();
-    scheduleNextAnimation(); // 安排下一次
-  }, delay);
-}
+  // 設置偶爾動畫的間隔（每1-3秒）
+  function scheduleNextAnimation() {
+    const delay = 1000 + Math.random() * 2000; // 1-3秒之間
+    setTimeout(() => {
+      occasionalAnimation();
+      scheduleNextAnimation(); // 安排下一次
+    }, delay);
+  }
 
-  // 偶爾動畫函數
+  // 創建發光脈衝效果的函數
+  function createGlowPulse() {
+    const glowOverlay = document.createElement('div');
+    glowOverlay.style.position = 'absolute';
+    glowOverlay.style.top = '0';
+    glowOverlay.style.left = '0';
+    glowOverlay.style.width = '100%';
+    glowOverlay.style.height = '100%';
+    glowOverlay.style.borderRadius = '50%';
+    // 初始使用白色光圈
+    glowOverlay.style.boxShadow = '0 0 30px 10px rgba(255, 255, 255, 0.8)';
+    glowOverlay.style.opacity = '0';
+    // 增加 box-shadow 的過渡效果，讓顏色變化更平滑
+    glowOverlay.style.transition = 'opacity 1s ease-in-out, box-shadow 0.5s ease-in-out';
+    glowOverlay.style.pointerEvents = 'none';
+    glowOverlay.style.zIndex = '1';
+
+    // 添加到吉祥物
+    mascot.style.position = 'fixed';
+    mascot.style.right = '15px';
+    mascot.style.bottom = '20px';
+    mascot.appendChild(glowOverlay);
+
+    // 動畫
+    setTimeout(() => {
+      glowOverlay.style.opacity = '0.8';
+      
+      // 黑白交替效果
+      let isWhite = true;
+      const colorInterval = setInterval(() => {
+        if (isWhite) {
+          // 切換到黑色光圈
+          glowOverlay.style.boxShadow = '0 0 30px 10px rgba(0, 0, 0, 0.8)';
+        } else {
+          // 切換回白色光圈
+          glowOverlay.style.boxShadow = '0 0 30px 10px rgba(255, 255, 255, 0.8)';
+        }
+        isWhite = !isWhite;
+      }, 500);
+
+      setTimeout(() => {
+        // 停止顏色變換
+        clearInterval(colorInterval);
+        glowOverlay.style.opacity = '0';
+
+        // 淡出後移除
+        setTimeout(() => {
+          if (mascot.contains(glowOverlay)) {
+            mascot.removeChild(glowOverlay);
+          }
+        }, 1000);
+      }, 3000);
+    }, 100);
+  }
+
+  // 偶爾動畫函數 - 統一為一個函數
   function occasionalAnimation() {
     // 隨機觸發特殊動畫的機會
     if (Math.random() < 0.3) { // 30%的機會
@@ -1952,14 +2047,14 @@ function scheduleNextAnimation() {
       const currentRight = mascot.style.right;
       const currentBottom = mascot.style.bottom;
       
-      // 選擇一個隨機動畫
-      const animationChoice = Math.floor(Math.random() * 3);
+      // 選擇一個隨機動畫（增加到4種）
+      const animationChoice = Math.floor(Math.random() * 4);
 
       switch (animationChoice) {
         case 0:
           // 彈跳動畫
           mascot.style.animation = 'none';
-          void mascot.offsetWidth; // 強制重新計算
+          void mascot.offsetWidth;
           mascot.style.animation = 'mascotBounceFixed 1s ease-in-out';
           break;
         case 1:
@@ -1969,8 +2064,16 @@ function scheduleNextAnimation() {
         case 2:
           // 搖晃動畫
           mascot.style.animation = 'none';
-          void mascot.offsetWidth; // 強制重新計算
+          void mascot.offsetWidth;
           mascot.style.animation = 'mascotShakeFixed 0.8s ease-in-out';
+          break;
+        case 3:
+          // 冒愛心動畫（新增）
+          createFloatingHearts();
+          // 同時做一個輕微的跳動
+          mascot.style.animation = 'none';
+          void mascot.offsetWidth;
+          mascot.style.animation = 'mascotBounceFixed 1s ease-in-out';
           break;
       }
 
@@ -1992,44 +2095,6 @@ function scheduleNextAnimation() {
     }
   }
 
-  // 創建發光脈衝效果的函數
-  function createGlowPulse() {
-    const glowOverlay = document.createElement('div');
-    glowOverlay.style.position = 'absolute'; // 使用絕對定位，相對於吉祥物
-    glowOverlay.style.top = '0';
-    glowOverlay.style.left = '0';
-    glowOverlay.style.width = '100%';
-    glowOverlay.style.height = '100%';
-    glowOverlay.style.borderRadius = '50%';
-    glowOverlay.style.boxShadow = '0 0 30px 10px rgba(0, 230, 255, 0.8)';
-    glowOverlay.style.opacity = '0';
-    glowOverlay.style.transition = 'opacity 1s ease-in-out';
-    glowOverlay.style.pointerEvents = 'none';
-    glowOverlay.style.zIndex = '1'; // 確保在吉祥物上方
-
-    // 添加到吉祥物 - 關鍵修改：保持固定定位而不是改為相對定位
-    mascot.style.position = 'fixed';  // 確保仍然是固定定位
-    mascot.style.right = '15px';  // 確保位置
-    mascot.style.bottom = '20px'; // 確保位置
-    mascot.appendChild(glowOverlay);
-
-    // 動畫
-    setTimeout(() => {
-      glowOverlay.style.opacity = '0.8';
-
-      setTimeout(() => {
-        glowOverlay.style.opacity = '0';
-
-        // 淡出後移除
-        setTimeout(() => {
-          if (mascot.contains(glowOverlay)) {
-            mascot.removeChild(glowOverlay);
-          }
-        }, 1000);
-      }, 1000);
-    }, 100);
-  }
-
   // 開始偶爾的動畫
   scheduleNextAnimation();
   
@@ -2039,6 +2104,7 @@ function scheduleNextAnimation() {
     mascot.style.position = 'fixed';
     mascot.style.bottom = '20px';
     mascot.style.right = '15px';
+    mascot.style.width = '112.5px'; // 保持縮小後的尺寸
   });
 }
 
@@ -2053,6 +2119,9 @@ function initModalHandlers() {
   // 打開模態框
   mascot.addEventListener('click', function(event) {
     event.preventDefault();
+
+    // 點擊時產生愛心 - 使用全局函數
+    createFloatingHearts();
 
     // 在吉祥物位置創建爆炸效果
     const rect = mascot.getBoundingClientRect();
@@ -2197,7 +2266,7 @@ function initModalHandlers() {
     }
 
     const particleCount = 30;
-    const colors = ['#00e2ff', '#00ccff', '#00fff2', '#4c00ff', '#8c52ff'];
+    const colors = ['#ffffff', '#000000', '#cccccc', '#333333']; // 改為黑白灰色系
 
     for (let i = 0; i < particleCount; i++) {
       setTimeout(() => {
@@ -2232,52 +2301,68 @@ function initModalHandlers() {
 }
 
 // 創建爆炸粒子效果
+// 創建愛心爆炸粒子效果
 function createExplosion(x, y) {
-  const particleCount = 30;
-  const colors = ['#00e2ff', '#4c00ff', '#8c52ff', '#ffffff'];
+  const particleCount = 20; // 減少數量，因為愛心形狀更加明顯
+  const colors = ['#ff69b4', '#ff1493', '#ff007f', '#ff0040']; // 粉紅色系列
   const container = document.body;
 
   for (let i = 0; i < particleCount; i++) {
-    const particle = document.createElement('div');
-    particle.className = 'explosion';
+    // 創建愛心容器
+    const heartContainer = document.createElement('div');
+    heartContainer.className = 'explosion-heart-container';
+    heartContainer.style.position = 'fixed';
+    heartContainer.style.left = x + 'px';
+    heartContainer.style.top = y + 'px';
+    heartContainer.style.width = '10px';
+    heartContainer.style.height = '10px';
+    heartContainer.style.pointerEvents = 'none';
+    heartContainer.style.zIndex = '2000';
+    heartContainer.style.opacity = '0';
 
-    const size = Math.random() * 15 + 5;
+    // 創建愛心
+    const heart = document.createElement('div');
+    heart.className = 'explosion-heart';
+    heart.style.position = 'absolute';
+    heart.style.width = '100%';
+    heart.style.height = '100%';
+    
+    // 隨機大小
+    const size = Math.random() * 15 + 10; // 10-25px
+    heart.style.fontSize = size + 'px';
+    heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+    heart.innerHTML = '❤'; // 使用心形Unicode字符
+    heart.style.transform = 'translate(-50%, -50%)';
+    
+    heartContainer.appendChild(heart);
+    container.appendChild(heartContainer);
+
+    // 隨機方向和距離
     const angle = Math.random() * Math.PI * 2;
-    const distance = Math.random() * 100 + 50;
-    const duration = Math.random() * 0.8 + 0.6;
-
-    particle.style.width = size + 'px';
-    particle.style.height = size + 'px';
-    particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-
-    // 設置粒子初始位置
-    particle.style.left = x + 'px';
-    particle.style.top = y + 'px';
-
-    // 添加到文檔
-    container.appendChild(particle);
+    const distance = Math.random() * 100 + 30;
+    const duration = Math.random() * 0.8 + 0.8; // 稍微長一點的持續時間
 
     // 向外擴散動畫
     setTimeout(() => {
-      particle.style.transition = `all ${duration}s cubic-bezier(0.1, 0.5, 0.1, 1)`;
-      particle.style.left = (x + Math.cos(angle) * distance) + 'px';
-      particle.style.top = (y + Math.sin(angle) * distance) + 'px';
-      particle.style.opacity = '1';
+      heartContainer.style.transition = `all ${duration}s cubic-bezier(0.1, 0.5, 0.1, 1)`;
+      heartContainer.style.left = (x + Math.cos(angle) * distance) + 'px';
+      heartContainer.style.top = (y + Math.sin(angle) * distance) + 'px';
+      heartContainer.style.opacity = '1';
 
-      // 隨機縮放和旋轉
-      const scale = Math.random() * 2 + 0.5;
+      // 隨機旋轉和縮放
       const rotate = Math.random() * 360;
-      particle.style.transform = `scale(${scale}) rotate(${rotate}deg)`;
+      const scale = Math.random() * 0.5 + 0.8;
+      heart.style.transform = `translate(-50%, -50%) rotate(${rotate}deg) scale(${scale})`;
 
-      // 動畫結束後移除粒子
+      // 動畫結束後淡出和移除
       setTimeout(() => {
-        particle.style.opacity = '0';
+        heartContainer.style.opacity = '0';
         setTimeout(() => {
-          if (container.contains(particle)) {
-            container.removeChild(particle);
+          if (container.contains(heartContainer)) {
+            container.removeChild(heartContainer);
           }
         }, 300);
-      }, duration * 800);
+      }, duration * 700);
     }, 10);
   }
 }

@@ -26,6 +26,595 @@ src="https://www.facebook.com/tr?id=496057096794216&ev=PageView&noscript=1"
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
   <style>
+
+
+.fixed-mascot {
+  position: fixed !important; /* 強制使用固定定位 */
+  bottom: 20px !important; 
+  right: 15px !important; 
+  left: auto !important; 
+  top: auto !important;
+  z-index: 1000;
+  width: 120px; 
+  height: auto;
+  transform-origin: bottom right !important; 
+  cursor: pointer; 
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.fixed-mascot:hover {
+  transform: scale(1.1);
+}
+
+.fixed-mascot img {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
+}
+
+/* 聯絡模態框樣式 */
+.contact-modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  overflow: auto;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.modal-content {
+  position: relative;
+  background: linear-gradient(135deg, #050518 0%, #0a1a2e 100%);
+  margin: 10vh auto;
+  width: 90%;
+  max-width: 600px;
+  border-radius: 20px;
+  box-shadow: 0 0 50px rgba(0, 230, 255, 0.5);
+  overflow: hidden;
+  transform: translateY(50px) scale(0.95);
+  transition: all 0.6s cubic-bezier(0.17, 0.84, 0.44, 1);
+  border: 1px solid rgba(0, 230, 255, 0.3);
+  animation: glowingBorder 4s infinite;
+}
+
+.modal-active .modal-content {
+  transform: translateY(0) scale(1);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: rgba(0, 20, 40, 0.8);
+  border-bottom: 1px solid rgba(0, 230, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.modal-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(0, 230, 255, 0.2),
+    transparent,
+    rgba(76, 0, 255, 0.2),
+    transparent);
+  transform: translateX(-100%);
+  animation: headerGlow 8s linear infinite;
+}
+
+.modal-logo-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.modal-logo {
+  height: 40px;
+  filter: drop-shadow(0 0 10px rgba(0, 230, 255, 0.7));
+}
+
+.close-modal {
+  font-size: 28px;
+  font-weight: bold;
+  color: #00e2ff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(0, 230, 255, 0.1);
+}
+
+.close-modal:hover {
+  color: #fff;
+  background: rgba(0, 230, 255, 0.2);
+  box-shadow: 0 0 15px rgba(0, 230, 255, 0.5);
+}
+
+.modal-body {
+  padding: 25px;
+  position: relative;
+  z-index: 1;
+}
+
+.modal-title {
+  color: #fff;
+  font-size: 1.8rem;
+  text-align: center;
+  margin-bottom: 30px;
+  text-shadow: 0 0 10px rgba(0, 230, 255, 0.5);
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.highlight-text {
+  color: #00e2ff;
+  font-weight: 700;
+  position: relative;
+  display: inline-block;
+}
+
+.highlight-text::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #00e2ff, transparent);
+  animation: pulse 2s infinite;
+}
+
+.contact-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+  
+  .contact-option {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+.contact-option::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  z-index: -1;
+}
+
+.contact-option::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, rgba(0, 230, 255, 0.5), transparent, rgba(76, 0, 255, 0.5));
+  z-index: -2;
+  filter: blur(10px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 15px;
+}
+
+.contact-option:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.contact-option:hover::after {
+  opacity: 1;
+}
+
+/* 聯絡選項樣式 */
+.telegram-option {
+  background: linear-gradient(135deg, rgba(43, 90, 223, 0.2), rgba(86, 130, 233, 0.1));
+}
+
+.youtube-option {
+  background: linear-gradient(135deg, rgba(255, 0, 0, 0.2), rgba(255, 94, 94, 0.1));
+}
+
+.line-option {
+  background: linear-gradient(135deg, rgba(6, 199, 85, 0.2), rgba(94, 239, 155, 0.1));
+}
+
+.telegram-vip-option {
+  background: linear-gradient(135deg, rgba(76, 0, 255, 0.2), rgba(140, 82, 255, 0.1));
+}
+
+.telegram-game-option {
+  background: linear-gradient(135deg, rgba(76, 0, 255, 0.2), rgba(140, 82, 255, 0.1));
+}
+
+.contact-icon-wrapper {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-radius: 50%;
+  margin-right: 15px;
+  flex-shrink: 0;
+}
+
+.telegram-option .contact-icon-wrapper {
+  background: linear-gradient(135deg, #2b5adf, #5682e9);
+  box-shadow: 0 0 15px rgba(43, 90, 223, 0.5);
+}
+
+.youtube-option .contact-icon-wrapper {
+  background: linear-gradient(135deg, #ff0000, #ff5e5e);
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+}
+
+.line-option .contact-icon-wrapper {
+  background: linear-gradient(135deg, #06c755, #5eef9b);
+  box-shadow: 0 0 15px rgba(6, 199, 85, 0.5);
+}
+
+.telegram-vip-option .contact-icon-wrapper,
+.telegram-game-option .contact-icon-wrapper {
+  background: linear-gradient(135deg, #4c00ff, #8c52ff);
+  box-shadow: 0 0 15px rgba(76, 0, 255, 0.5);
+  position: relative;
+}
+
+.contact-icon-wrapper svg {
+  width: 20px;
+  height: 20px;
+  stroke: #fff;
+  fill: none;
+}
+
+.vip-badge, .game-badge {
+  position: absolute;
+  bottom: -5px;
+  right: -5px;
+  background: linear-gradient(135deg, #ff6b00, #ffb700);
+  color: #fff;
+  font-size: 0.6rem;
+  font-weight: bold;
+  padding: 2px 5px;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(255, 107, 0, 0.5);
+}
+
+.contact-info-text h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 5px;
+}
+
+.contact-info-text p {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* 註冊橫幅樣式 */
+.register-banner {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(0, 230, 255, 0.1), rgba(76, 0, 255, 0.15));
+  border-radius: 15px;
+  margin-bottom: 25px;
+  border: 1px solid rgba(0, 230, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.register-banner::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(0, 230, 255, 0.2),
+    transparent,
+    rgba(76, 0, 255, 0.2),
+    transparent);
+  transform: translateX(-100%);
+  animation: bannerGlow 8s linear infinite;
+}
+
+.register-icon {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #00e2ff, #4c00ff);
+  border-radius: 50%;
+  margin-right: 15px;
+  box-shadow: 0 0 15px rgba(0, 230, 255, 0.5);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.register-icon svg {
+  width: 24px;
+  height: 24px;
+  stroke: #fff;
+  fill: none;
+}
+
+.register-text {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.register-text h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 5px;
+}
+
+.register-text p {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+}
+
+.register-button {
+  background: linear-gradient(90deg, #4c00ff, #8c52ff);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 10px 15px;
+  border-radius: 50px;
+  text-align: center;
+  white-space: nowrap;
+  box-shadow: 0 5px 15px rgba(76, 0, 255, 0.3);
+  border: none;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  transition: all 0.3s ease;
+  margin-left: 15px;
+  flex-shrink: 0;
+}
+
+.register-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(76, 0, 255, 0.5);
+}
+
+.register-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+
+.register-button:hover::before {
+  transform: translateX(100%);
+}
+
+/* 模態框粒子效果 */
+.modal-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.modal-particle {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  opacity: 0;
+}
+
+/* 爆炸粒子特效 */
+.explosion {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #00e2ff;
+  pointer-events: none;
+  z-index: 1999;
+  opacity: 0;
+}
+
+/* 吉祥物動畫效果 */
+@keyframes mascotIdleFixed {
+  0%, 20%, 50%, 80%, 100% {
+    transform: scale(1) rotate(0deg);
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
+  }
+  5% {
+    transform: scale(1.05) rotate(3deg);
+    filter: drop-shadow(0 0 15px rgba(76, 0, 255, 0.7));
+  }
+  25% {
+    transform: scale(1.03) rotate(-2deg);
+    filter: drop-shadow(0 0 12px rgba(0, 230, 255, 0.6));
+  }
+  55% {
+    transform: scale(1.08) rotate(2deg);
+    filter: drop-shadow(0 0 20px rgba(0, 230, 255, 0.8));
+  }
+  85% {
+    transform: scale(1.04) rotate(-3deg);
+    filter: drop-shadow(0 0 15px rgba(76, 0, 255, 0.6));
+  }
+}
+
+@keyframes mascotBounceFixed {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
+  }
+  40% {
+    transform: translateY(-20px) scale(1.1);
+    filter: drop-shadow(0 0 20px rgba(0, 230, 255, 0.8));
+  }
+  60% {
+    transform: translateY(-15px) scale(1.08);
+    filter: drop-shadow(0 0 18px rgba(76, 0, 255, 0.7));
+  }
+  80% {
+    transform: translateY(-5px) scale(1.05);
+    filter: drop-shadow(0 0 15px rgba(0, 230, 255, 0.6));
+  }
+}
+
+@keyframes mascotShakeFixed {
+  0%, 100% {
+    transform: rotate(0deg) scale(1);
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: rotate(-5deg) scale(1.05);
+    filter: drop-shadow(0 0 15px rgba(76, 0, 255, 0.6));
+  }
+  20%, 40%, 60%, 80% {
+    transform: rotate(5deg) scale(1.05);
+    filter: drop-shadow(0 0 15px rgba(0, 230, 255, 0.6));
+  }
+}
+
+@keyframes headerGlow {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(50%); }
+}
+
+@keyframes bannerGlow {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(50%); }
+}
+
+@keyframes pulse {
+  0% { opacity: 0.5; }
+  50% { opacity: 1; }
+  100% { opacity: 0.5; }
+}
+
+@keyframes modalFloat {
+  0% {
+    transform: translateY(100%) translateX(0) scale(0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.8;
+  }
+  80% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(-100%) translateX(20px) scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes glowingBorder {
+  0% { box-shadow: 0 0 25px rgba(0, 230, 255, 0.5); }
+  50% { box-shadow: 0 0 40px rgba(76, 0, 255, 0.7); }
+  100% { box-shadow: 0 0 25px rgba(0, 230, 255, 0.5); }
+}
+
+/* 顯示模態框特效 */
+.modal-active {
+  display: block;
+  opacity: 1;
+}
+
+/* 響應式樣式 - 在較小螢幕上調整 */
+@media (max-width: 768px) {
+  .fixed-mascot {
+    width: 100px;
+    bottom: 15px;
+    right: 10px;
+  }
+  
+  .contact-options {
+    grid-template-columns: 1fr;
+  }
+  
+  .modal-title {
+    font-size: 1.5rem;
+  }
+  
+  .contact-option {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .fixed-mascot {
+    width: 80px;
+    bottom: 10px;
+    right: 8px;
+  }
+  
+  .register-banner {
+    flex-direction: column;
+    text-align: center;
+    padding: 15px;
+  }
+  
+  .register-icon {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+  
+  .register-text {
+    margin-bottom: 10px;
+  }
+  
+  .register-button {
+    margin-left: 0;
+    width: 100%;
+  }
+}
     /* 設定基礎色彩變數 */
     :root {
       --primary-bg: #ffffff;
@@ -741,6 +1330,198 @@ src="https://www.facebook.com/tr?id=496057096794216&ev=PageView&noscript=1"
       0% { background-position-x: 0; }
       100% { background-position-x: 1200px; }
     }
+
+    /* 添加新卡片按鈕樣式 */
+    .card-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 20px 0 80px 15px;
+      max-width: 50%; 
+      padding: 0;
+      position: relative;
+      z-index: 10;
+    }
+
+    .card-btn {
+      display: flex;
+      align-items: center;
+      padding: 10px 12px; /* 減小內邊距 */
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+      box-shadow: 0 5px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    .card-icon-wrapper {
+      width: 28px; 
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 7px;
+      margin-right: 10px;
+      flex-shrink: 0;
+    }
+
+    .card-icon-wrapper svg {
+      width: 16px; 
+      height: 16px;
+      stroke: #fff;
+      fill: none;
+    }
+
+    .card-text {
+      flex: 1;
+    }
+
+    .card-text h3 {
+      font-size: 0.95rem; 
+      font-weight: 600;
+      color: #fff;
+      margin: 0 0 2px 0;
+    }
+
+    .card-text p {
+      font-size: 0.75rem; 
+      color: rgba(255, 255, 255, 0.8);
+      margin: 0;
+    }
+
+    /* 按鈕顏色樣式 */
+    .youtube-card {
+      background: linear-gradient(135deg, #c00, #ff3333);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .youtube-card .card-icon-wrapper {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .line-card {
+      background: linear-gradient(135deg, #06c755, #07e060);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .line-card .card-icon-wrapper {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .telegram-card {
+      background: linear-gradient(135deg, #0088cc, #18a2e5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .telegram-card .card-icon-wrapper {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+
+    .card-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
+    }
+
+    .card-btn:hover::before {
+      transform: translateX(100%);
+    }
+
+  .instagram-option {
+    background: linear-gradient(135deg, rgba(225, 48, 108, 0.2), rgba(253, 29, 29, 0.1), rgba(245, 96, 64, 0.1));
+  }
+
+  .instagram-option .contact-icon-wrapper {
+    background: linear-gradient(135deg, #e1306c, #fd1d1d, #f56040);
+    box-shadow: 0 0 15px rgba(225, 48, 108, 0.5);
+  }
+
+ 
+  .tiktok-option {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.2), rgba(37, 244, 238, 0.1), rgba(254, 44, 85, 0.1));
+  }
+
+  .tiktok-option .contact-icon-wrapper {
+    background: linear-gradient(135deg, #000000, #25F4EE, #FE2C55);
+    box-shadow: 0 0 15px rgba(254, 44, 85, 0.5);
+  }
+
+  .telegram-option, 
+  [data-link*="xin_165"] {
+    order: 1 !important;
+  }
+
+  .instagram-option, 
+  [data-link*="instagram.com"] {
+    order: 2 !important;
+  }
+
+  .tiktok-option, 
+  [data-link*="tiktok.com"] {
+    order: 3 !important;
+  }
+
+  .youtube-option, 
+  [data-link*="youtube.com"] {
+    order: 4 !important;
+  }
+
+  .instagram-card {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .instagram-card .card-icon-wrapper {
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+
+  .tiktok-card {
+    background: linear-gradient(45deg, #000000, #25F4EE 40%, #FE2C55 60%, #000000);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .tiktok-card .card-icon-wrapper {
+    background: rgba(255, 255, 255, 0.15);
+  }
+  
+  /* 排序規則更新 */
+  .telegram-card, 
+  a[href*="xin_165"], 
+  a[data-link*="xin_165"] {
+    order: 1 !important;
+  }
+
+  .instagram-card, 
+  a[href*="instagram.com"], 
+  a[data-link*="instagram.com"] {
+    order: 2 !important;
+  }
+
+  .tiktok-card, 
+  a[href*="tiktok.com"], 
+  a[data-link*="tiktok.com"] {
+    order: 3 !important;
+  }
+
+  .youtube-card, 
+  a[href*="youtube.com"], 
+  a[data-link*="youtube.com"] {
+    order: 4 !important;
+  }
   </style>
 </head>
 <body>
@@ -772,7 +1553,7 @@ src="https://www.facebook.com/tr?id=496057096794216&ev=PageView&noscript=1"
     </div>
   </div>
   <div class="section-content" style="margin-top: 15px;">
-    <!-- 将视频分成左右两部分 -->
+  
     <div style="display: flex; gap: 15px; margin-bottom: 10px;">
 
       <div style="flex: 1;">
@@ -781,7 +1562,7 @@ src="https://www.facebook.com/tr?id=496057096794216&ev=PageView&noscript=1"
         </div>
       </div>
 
-      <!-- 右侧视频 -->
+      
       <div style="flex: 1;">
         <div class="video-container">
           <iframe width="100%" height="315" src="https://www.youtube.com/embed/Zp5SRcpSKjE?autoplay=1&loop=1&playlist=Zp5SRcpSKjE&mute=1" title="平台介绍2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -790,7 +1571,6 @@ src="https://www.facebook.com/tr?id=496057096794216&ev=PageView&noscript=1"
     </div>
   </div>
 </section>
-    
 
 <section class="section">
   <div class="section-header">
@@ -832,20 +1612,20 @@ src="https://www.facebook.com/tr?id=496057096794216&ev=PageView&noscript=1"
       </div>
       
       <div class="section-content" style="padding-top: 5px;">
-        <!-- 第一对：标题+图片 -->
+    
         <p class="promo-text">GoFun會員專屬福利💕! <br> 註冊後天天免費轉，最高88888USDT!</p>
         <div style="border-radius: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(92, 86, 69, 0.4); margin: 10px 0 20px;">
           <img src="images/輪盤.jpg" alt="幸運輪盤" style="width: 100%; height: auto; display: block;">
         </div>
         
-        <!-- 第二对：标题+图片 -->
+       
         <p class="promo-text">GoFun全館超高 反水1.2%💦<br>
           無上限回饋，邊玩邊回本不是夢！</p>
         <div style="border-radius: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(92, 86, 69, 0.4); margin: 10px 0 20px;">
           <img src="images/反水.jpg" alt="Fun到你家淹水" style="width: 100%; height: auto; display: block;">
         </div>
         
-        <!-- 第三对：标题+图片 -->
+      
         <p class="promo-text">VIP特權 用戶跳巢想平轉<br>
           不限平台會員，VIP特權可無縫轉移👑</p>
         <div style="border-radius: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(92, 86, 69, 0.4); margin: 10px 0 20px;">
@@ -854,31 +1634,157 @@ src="https://www.facebook.com/tr?id=496057096794216&ev=PageView&noscript=1"
       </div>
     </section>
 
-<div class="fixed-buttons">
-  <a href="https://97y.me/9jXKr" class="fixed-btn">
-    立即註冊
-    <div class="shine"></div>
-    <div class="dots">
-      <!-- 裝飾小點由JS生成 -->
-    </div>
-    <span class="btn-icon">
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="9 18 15 12 9 6"></polyline>
+
+<div class="card-buttons">
+ 
+  <a href="https://t.me/xin_165" class="card-btn telegram-card">
+    <div class="card-icon-wrapper">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21.5 2l-19.5 9.5 7 2 10.5-9.5-8 11 4 2 6-15.5z"/>
       </svg>
-    </span>
-  </a>
-  <a href="https://t.me/xin_165" class="fixed-btn fixed-btn-blue">
-    聯絡萬萬
-    <div class="shine"></div>
-    <div class="dots">
-      <!-- 裝飾小點由JS生成 -->
     </div>
-    <span class="btn-icon">
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-      </svg>
-    </span>
+    <div class="card-text">
+      <h3>Telegram</h3>
+      <p>24小時美女服務</p>
+    </div>
   </a>
+
+
+  <a href="https://www.instagram.com/ww97_167?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" class="card-btn instagram-card">
+    <div class="card-icon-wrapper">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+      </svg>
+    </div>
+    <div class="card-text">
+      <h3>Instagram</h3>
+      <p>關注獲取最新資訊</p>
+    </div>
+  </a>
+
+ 
+  <a href="https://www.tiktok.com/@ww97_167?is_from_webapp=1&sender_device=pc" class="card-btn tiktok-card">
+    <div class="card-icon-wrapper">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
+      </svg>
+    </div>
+    <div class="card-text">
+      <h3>TikTok</h3>
+      <p>追蹤萬萬精彩短影音</p>
+    </div>
+  </a>
+
+
+  <a href="https://youtube.com/channel/UCc1JL2Ezx3iGHPoiIoMRmUg?si=_Brl5e_2JDNNjaSr" class="card-btn youtube-card">
+    <div class="card-icon-wrapper">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
+        <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+      </svg>
+    </div>
+    <div class="card-text">
+      <h3>YouTube</h3>
+      <p>訂閱萬萬遊戲頻道</p>
+    </div>
+  </a>
+</div>
+
+
+<a href="javascript:void(0);" class="fixed-mascot" id="mascotButton">
+  <img src="images/右下角固定tg.png" alt="吉祥物" style="width: 150px; height: auto;">
+</a>
+
+
+<div id="contactModal" class="contact-modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-logo-container">
+        <img src="images/logo.png" alt="GoFun Logo" class="modal-logo">
+      </div>
+      <span class="close-modal">&times;</span>
+    </div>
+    <div class="modal-body">
+      <h2 class="modal-title">聯絡萬萬 <span class="highlight-text">24/7 隨時為您服務</span></h2>
+
+  
+      <div class="register-banner">
+        <div class="register-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+        </div>
+        <div class="register-text">
+          <h3>註冊 GoFun</h3>
+          <p>享受獨家優惠</p>
+        </div>
+        <a href="https://97y.me/MRAC7" class="register-button">立即註冊</a>
+      </div>
+      
+     
+      <div class="contact-options">
+   
+        <div class="contact-option telegram-option" data-link="https://t.me/xin_165">
+          <div class="contact-icon-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.5 2l-19.5 9.5 7 2 10.5-9.5-8 11 4 2 6-15.5z"/>
+            </svg>
+          </div>
+          <div class="contact-info-text">
+            <h3>Telegram</h3>
+            <p>24小時美女服務</p>
+          </div>
+        </div>
+
+    
+        <div class="contact-option instagram-option" data-link="https://www.instagram.com/ww97_167?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==">
+          <div class="contact-icon-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </div>
+          <div class="contact-info-text">
+            <h3>Instagram</h3>
+            <p>關注獲取最新資訊</p>
+          </div>
+        </div>
+
+       
+        <div class="contact-option tiktok-option" data-link="https://www.tiktok.com/@ww97_167?is_from_webapp=1&sender_device=pc">
+          <div class="contact-icon-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
+            </svg>
+          </div>
+          <div class="contact-info-text">
+            <h3>TikTok</h3>
+            <p>追蹤萬萬精彩短影音</p>
+          </div>
+        </div>
+
+       
+        <div class="contact-option youtube-option" data-link="https://youtube.com/channel/UCc1JL2Ezx3iGHPoiIoMRmUg?si=_Brl5e_2JDNNjaSr">
+          <div class="contact-icon-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
+              <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+            </svg>
+          </div>
+          <div class="contact-info-text">
+            <h3>YouTube</h3>
+            <p>訂閱萬萬遊戲頻道</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
   <script>
@@ -977,6 +1883,437 @@ src="https://www.facebook.com/tr?id=496057096794216&ev=PageView&noscript=1"
       });
     });
   });
+
+// 頁面載入後執行所有初始化
+document.addEventListener('DOMContentLoaded', function() {
+  // 初始化所有功能
+  initParticles();
+  initMascotAnimations();
+  initModalHandlers();
+  initButtonEffects();
+});
+
+// 粒子效果初始化
+function initParticles() {
+  const particlesContainer = document.getElementById('particles');
+  const particleCount = 30;
+  const colors = ['#00e2ff', '#00ccff', '#00fff2', '#00acff'];
+
+  // 創建粒子
+  for (let i = 0; i < particleCount; i++) {
+    const particle = document.createElement('span');
+    particle.className = 'particle';
+
+    // 隨機大小和位置
+    const size = Math.random() * 4 + 1;
+    particle.style.width = size + 'px';
+    particle.style.height = size + 'px';
+    particle.style.left = Math.random() * 100 + 'vw';
+    particle.style.top = Math.random() * 100 + 'vh';
+
+    // 設置不同顏色
+    particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+    // 動畫效果
+    const duration = Math.random() * 15 + 10;
+    particle.style.animation = `float ${duration}s linear infinite`;
+    particle.style.opacity = Math.random() * 0.3 + 0.2;
+
+    particlesContainer.appendChild(particle);
+  }
+}
+
+// 吉祥物動畫初始化 - 修改版本
+function initMascotAnimations() {
+  const mascot = document.getElementById('mascotButton');
+  
+  // 確保初始位置（很重要）
+  mascot.style.position = 'fixed';
+  mascot.style.bottom = '20px';
+  mascot.style.right = '15px';
+  mascot.style.zIndex = '1000';
+  mascot.style.width = '150px';
+  mascot.style.height = 'auto';
+
+// 設置偶爾動畫的間隔（每1-3秒）
+function scheduleNextAnimation() {
+  const delay = 1000 + Math.random() * 2000; // 1-3秒之間
+  setTimeout(() => {
+    occasionalAnimation();
+    scheduleNextAnimation(); // 安排下一次
+  }, delay);
+}
+
+  // 偶爾動畫函數
+  function occasionalAnimation() {
+    // 隨機觸發特殊動畫的機會
+    if (Math.random() < 0.3) { // 30%的機會
+      // 保存當前位置和樣式
+      const currentRight = mascot.style.right;
+      const currentBottom = mascot.style.bottom;
+      
+      // 選擇一個隨機動畫
+      const animationChoice = Math.floor(Math.random() * 3);
+
+      switch (animationChoice) {
+        case 0:
+          // 彈跳動畫
+          mascot.style.animation = 'none';
+          void mascot.offsetWidth; // 強制重新計算
+          mascot.style.animation = 'mascotBounceFixed 1s ease-in-out';
+          break;
+        case 1:
+          // 發光脈衝
+          createGlowPulse();
+          break;
+        case 2:
+          // 搖晃動畫
+          mascot.style.animation = 'none';
+          void mascot.offsetWidth; // 強制重新計算
+          mascot.style.animation = 'mascotShakeFixed 0.8s ease-in-out';
+          break;
+      }
+
+      // 特殊動畫後重設為閒置動畫
+      setTimeout(() => {
+        // 先停止動畫
+        mascot.style.animation = 'none';
+        
+        // 強制重新計算
+        void mascot.offsetWidth;
+        
+        // 恢復原來的位置
+        mascot.style.right = currentRight;
+        mascot.style.bottom = currentBottom;
+        
+        // 應用新動畫
+        mascot.style.animation = 'mascotIdleFixed 12s ease-in-out infinite';
+      }, 1500);
+    }
+  }
+
+  // 創建發光脈衝效果的函數
+  function createGlowPulse() {
+    const glowOverlay = document.createElement('div');
+    glowOverlay.style.position = 'absolute'; // 使用絕對定位，相對於吉祥物
+    glowOverlay.style.top = '0';
+    glowOverlay.style.left = '0';
+    glowOverlay.style.width = '100%';
+    glowOverlay.style.height = '100%';
+    glowOverlay.style.borderRadius = '50%';
+    glowOverlay.style.boxShadow = '0 0 30px 10px rgba(0, 230, 255, 0.8)';
+    glowOverlay.style.opacity = '0';
+    glowOverlay.style.transition = 'opacity 1s ease-in-out';
+    glowOverlay.style.pointerEvents = 'none';
+    glowOverlay.style.zIndex = '1'; // 確保在吉祥物上方
+
+    // 添加到吉祥物 - 關鍵修改：保持固定定位而不是改為相對定位
+    mascot.style.position = 'fixed';  // 確保仍然是固定定位
+    mascot.style.right = '15px';  // 確保位置
+    mascot.style.bottom = '20px'; // 確保位置
+    mascot.appendChild(glowOverlay);
+
+    // 動畫
+    setTimeout(() => {
+      glowOverlay.style.opacity = '0.8';
+
+      setTimeout(() => {
+        glowOverlay.style.opacity = '0';
+
+        // 淡出後移除
+        setTimeout(() => {
+          if (mascot.contains(glowOverlay)) {
+            mascot.removeChild(glowOverlay);
+          }
+        }, 1000);
+      }, 1000);
+    }, 100);
+  }
+
+  // 開始偶爾的動畫
+  scheduleNextAnimation();
+  
+  // 監聽視窗大小變化，確保位置正確
+  window.addEventListener('resize', function() {
+    // 重置吉祥物位置
+    mascot.style.position = 'fixed';
+    mascot.style.bottom = '20px';
+    mascot.style.right = '15px';
+  });
+}
+
+// 初始化模態框處理
+function initModalHandlers() {
+  const mascot = document.getElementById('mascotButton');
+  const modal = document.getElementById('contactModal');
+  const closeModal = document.querySelector('.close-modal');
+  const contactOptions = document.querySelectorAll('.contact-option');
+  const registerButton = document.querySelector('.register-button');
+
+  // 打開模態框
+  mascot.addEventListener('click', function(event) {
+    event.preventDefault();
+
+    // 在吉祥物位置創建爆炸效果
+    const rect = mascot.getBoundingClientRect();
+    const explosionX = rect.left + rect.width / 2;
+    const explosionY = rect.top + rect.height / 2;
+    createExplosion(explosionX, explosionY);
+
+    // 顯示模態框
+    setTimeout(openModal, 300);
+  });
+
+  // 強化模態框處理，修復移動端關閉問題
+  function openModal() {
+    modal.style.display = 'block';
+    // 強制重繪以確保過渡效果生效
+    void modal.offsetWidth;
+    // 添加活動類以啟動動畫
+    modal.classList.add('modal-active');
+
+    // 添加模態框內部粒子效果
+    createModalParticles();
+
+    // 設置連續粒子效果間隔
+    const particlesInterval = setInterval(createModalParticles, 5000);
+    modal.dataset.particlesInterval = particlesInterval;
+
+    // 防止頁面滾動
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModalFunc() {
+    // 清除粒子效果間隔
+    clearInterval(parseInt(modal.dataset.particlesInterval || '0'));
+
+    // 移除活動類
+    modal.classList.remove('modal-active');
+
+    // 動畫結束後隱藏模態框
+    setTimeout(() => {
+      modal.style.display = 'none';
+
+      // 移除剩餘粒子元素
+      const particlesContainer = modal.querySelector('.modal-particles');
+      if (particlesContainer) {
+        particlesContainer.innerHTML = '';
+      }
+
+      // 恢復頁面滾動
+      document.body.style.overflow = '';
+    }, 500);
+  }
+
+  // 關閉模態框 - 增強點擊處理
+  closeModal.addEventListener('click', function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    closeModalFunc();
+  });
+
+  // 點擊模態框外部區域關閉 - 優化移動裝置上的表現
+  modal.addEventListener('click', function(event) {
+    // 如果點擊的是模態框背景（不是內容）
+    if (event.target === modal) {
+      closeModalFunc();
+    }
+  });
+
+  // 聯絡選項點擊處理
+  contactOptions.forEach(option => {
+    option.addEventListener('click', function() {
+      // 獲取連結
+      const link = this.getAttribute('data-link');
+
+      // 創建波紋效果
+      const ripple = document.createElement('div');
+      ripple.className = 'contact-ripple';
+      ripple.style.position = 'absolute';
+      ripple.style.width = '100%';
+      ripple.style.height = '100%';
+      ripple.style.top = '0';
+      ripple.style.left = '0';
+      ripple.style.background = 'radial-gradient(circle, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 70%)';
+      ripple.style.borderRadius = '15px';
+      ripple.style.transform = 'scale(0)';
+      ripple.style.opacity = '1';
+      ripple.style.transition = 'all 0.5s ease-out';
+
+      this.appendChild(ripple);
+
+      // 動畫效果
+      setTimeout(() => {
+        ripple.style.transform = 'scale(3)';
+        ripple.style.opacity = '0';
+      }, 10);
+
+      // 動畫結束後跳轉
+      setTimeout(() => {
+        window.open(link, '_blank');
+        if (this.contains(ripple)) {
+          this.removeChild(ripple);
+        }
+      }, 400);
+    });
+  });
+
+  // 註冊轉跳處理
+  if (registerButton) {
+    registerButton.addEventListener('click', function(event) {
+      // 創建波紋效果
+      const ripple = document.createElement('div');
+      ripple.className = 'register-ripple';
+      ripple.style.position = 'absolute';
+      ripple.style.width = '100%';
+      ripple.style.height = '100%';
+      ripple.style.top = '0';
+      ripple.style.left = '0';
+      ripple.style.background = 'radial-gradient(circle, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 70%)';
+      ripple.style.borderRadius = '50px';
+      ripple.style.transform = 'scale(0)';
+      ripple.style.opacity = '1';
+      ripple.style.transition = 'all 0.5s ease-out';
+      ripple.style.zIndex = '0';
+
+      this.appendChild(ripple);
+
+      // 動畫效果
+      setTimeout(() => {
+        ripple.style.transform = 'scale(3)';
+        ripple.style.opacity = '0';
+      }, 10);
+    });
+  }
+
+  // 創建模態框內粒子效果
+  function createModalParticles() {
+    let particlesContainer = modal.querySelector('.modal-particles');
+
+    if (!particlesContainer) {
+      particlesContainer = document.createElement('div');
+      particlesContainer.className = 'modal-particles';
+      modal.appendChild(particlesContainer);
+    }
+
+    const particleCount = 30;
+    const colors = ['#00e2ff', '#00ccff', '#00fff2', '#4c00ff', '#8c52ff'];
+
+    for (let i = 0; i < particleCount; i++) {
+      setTimeout(() => {
+        const particle = document.createElement('span');
+        particle.className = 'modal-particle';
+
+        // 隨機大小和位置
+        const size = Math.random() * 6 + 2;
+        particle.style.width = size + 'px';
+        particle.style.height = size + 'px';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.bottom = '-10px';
+
+        // 設置顏色
+        particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+        // 設置動畫
+        const duration = Math.random() * 8 + 4;
+        particle.style.animation = `modalFloat ${duration}s ease-out forwards`;
+
+        particlesContainer.appendChild(particle);
+
+        // 動畫結束後移除粒子
+        setTimeout(() => {
+          if (particlesContainer && particlesContainer.contains(particle)) {
+            particlesContainer.removeChild(particle);
+          }
+        }, duration * 1000);
+      }, i * 300); // 粒子創建間隔
+    }
+  }
+}
+
+// 創建爆炸粒子效果
+function createExplosion(x, y) {
+  const particleCount = 30;
+  const colors = ['#00e2ff', '#4c00ff', '#8c52ff', '#ffffff'];
+  const container = document.body;
+
+  for (let i = 0; i < particleCount; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'explosion';
+
+    const size = Math.random() * 15 + 5;
+    const angle = Math.random() * Math.PI * 2;
+    const distance = Math.random() * 100 + 50;
+    const duration = Math.random() * 0.8 + 0.6;
+
+    particle.style.width = size + 'px';
+    particle.style.height = size + 'px';
+    particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+
+    // 設置粒子初始位置
+    particle.style.left = x + 'px';
+    particle.style.top = y + 'px';
+
+    // 添加到文檔
+    container.appendChild(particle);
+
+    // 向外擴散動畫
+    setTimeout(() => {
+      particle.style.transition = `all ${duration}s cubic-bezier(0.1, 0.5, 0.1, 1)`;
+      particle.style.left = (x + Math.cos(angle) * distance) + 'px';
+      particle.style.top = (y + Math.sin(angle) * distance) + 'px';
+      particle.style.opacity = '1';
+
+      // 隨機縮放和旋轉
+      const scale = Math.random() * 2 + 0.5;
+      const rotate = Math.random() * 360;
+      particle.style.transform = `scale(${scale}) rotate(${rotate}deg)`;
+
+      // 動畫結束後移除粒子
+      setTimeout(() => {
+        particle.style.opacity = '0';
+        setTimeout(() => {
+          if (container.contains(particle)) {
+            container.removeChild(particle);
+          }
+        }, 300);
+      }, duration * 800);
+    }, 10);
+  }
+}
+
+// 初始化按鈕波紋效果
+function initButtonEffects() {
+  const buttons = document.querySelectorAll('.icon-btn');
+
+  buttons.forEach(button => {
+    button.addEventListener('mouseenter', function() {
+      const ripple = document.createElement('span');
+      ripple.className = 'ripple';
+      ripple.style.position = 'absolute';
+      ripple.style.width = '100%';
+      ripple.style.height = '100%';
+      ripple.style.borderRadius = '50%';
+      ripple.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
+      ripple.style.transform = 'scale(0)';
+      ripple.style.transition = 'transform 0.5s ease-out';
+
+      this.appendChild(ripple);
+
+      // 延遲執行讓CSS認到新元素
+      setTimeout(() => {
+        ripple.style.transform = 'scale(1)';
+      }, 10);
+
+      setTimeout(() => {
+        if (this.contains(ripple)) {
+          this.removeChild(ripple);
+        }
+      }, 500);
+    });
+  });
+}
   </script>
+
 </body>
 </html>
